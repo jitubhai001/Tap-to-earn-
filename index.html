@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Coin App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Introduction Screen Styles */
+        .intro-screen {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px 0;
+        }
+        
+        .app-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .app-tagline {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+        
+        .intro-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .intro-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        
+        .feature-text {
+            font-size: 16px;
+            color: #34495e;
+        }
+        
+        .next-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 0;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: auto;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .next-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .next-btn:active {
+            transform: translateY(0);
+        }
+        
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background-color: #3498db;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* Main App Interface Styles */
+        .app-interface {
+            display: none;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 48%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .stat-title {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .coin-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .coin {
+            width: 150px;
+            height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23FFD700"/><circle cx="50" cy="50" r="40" fill="%23FFC000"/><text x="50" y="50" font-family="Arial" font-size="30" text-anchor="middle" dominant-baseline="middle" fill="%23800000">₹</text></svg>');
+            background-size: contain;
+            cursor: pointer;
+            transition: transform 0.1s;
+            margin-bottom: 20px;
+        }
+        
+        .coin:active {
+            transform: scale(0.95);
+        }
+        
+        .ad-container {
+            background-color: #f8f9fa;
+            border: 1px dashed #bdc3c7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .ad-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .ad-btn:hover {
+            background-color: #e67e22;
+        }
+        
+        .ad-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .withdraw-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .withdraw-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .withdraw-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .withdraw-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .withdraw-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .upi-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .amount-option {
+            background-color: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .amount-option:hover {
+            background-color: #dfe4ea;
+        }
+        
+        .amount-option.selected {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .submit-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .success-message {
+            text-align: center;
+            font-size: 18px;
+            color: #2ecc71;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .ad-progress {
+            width: 100%;
+            height: 5px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .ad-progress-bar {
+            height: 100%;
+            background-color: #f39c12;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 480px) {
+            .intro-screen, .app-interface {
+                padding: 15px;
+            }
+            
+            .intro-card {
+                padding: 20px;
+            }
+            
+            .app-name {
+                font-size: 24px;
+            }
+            
+            .feature-text {
+                font-size: 15px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+            
+            .coin {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .amount-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Introduction Screen -->
+    <div class="intro-screen" id="introScreen">
+        <div class="header">
+            <div class="app-logo">₹</div>
+            <h1 class="app-name">Earn Coin App</h1>
+            <p class="app-tagline">पैसे कमाने का आसान तरीका</p>
+        </div>
+        
+        <div class="intro-card">
+            <h2 class="intro-title">ऐप कैसे काम करता है</h2>
+            
+            <div class="feature-item">
+                <div class="feature-icon">1</div>
+                <p class="feature-text">Coin पर क्लिक करने पर 1 स्कोर मिलेगा</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">2</div>
+                <p class="feature-text">100 स्कोर = ₹1</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">3</div>
+                <p class="feature-text">विज्ञापन देखकर 50 स्कोर पाएं</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">4</div>
+                <p class="feature-text">₹800 होने पर ही Withdrawal का ऑप्शन खुलेगा</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">5</div>
+                <p class="feature-text">राशि चुनें (800, 1000, 1200, 1500, 1700, 2500, 4000)</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">6</div>
+                <p class="feature-text">उस पर क्लिक करते ही: "Withdrawal Successfully Completed!"</p>
+            </div>
+        </div>
+        
+        <button class="next-btn" id="nextBtn">शुरू करें</button>
+    </div>
+
+    <!-- Main App Interface -->
+    <div class="app-interface" id="appInterface">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-title">आपका स्कोर</div>
+                <div class="stat-value" id="scoreValue">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">कुल राशि</div>
+                <div class="stat-value">₹<span id="amountValue">0</span></div>
+            </div>
+        </div>
+        
+        <div class="coin-container">
+            <div class="coin" id="coin"></div>
+            <p>क्लिक करके कमाएं (1 स्कोर प्रति क्लिक)</p>
+        </div>
+        
+        <div class="ad-container">
+            <p>विज्ञापन देखकर 50 स्कोर पाएं</p>
+            <button class="ad-btn" id="adBtn">विज्ञापन देखें</button>
+            <div class="ad-progress" id="adProgress">
+                <div class="ad-progress-bar" id="adProgressBar"></div>
+            </div>
+        </div>
+        
+        <div class="withdraw-section">
+            <h3 class="withdraw-title">अपनी कमाई निकालें</h3>
+            <button class="withdraw-btn" id="withdrawBtn" disabled>Withdraw</button>
+        </div>
+    </div>
+    
+    <!-- Withdrawal Modal -->
+    <div class="modal" id="withdrawModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 class="modal-title">पैसे निकालें</h3>
+            
+            <div class="input-group">
+                <label class="input-label">अपना UPI ID दर्ज करें</label>
+                <input type="text" class="upi-input" id="upiId" placeholder="example@upi">
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">राशि चुनें (₹)</label>
+                <div class="amount-options" id="amountOptions">
+                    <div class="amount-option" data-amount="800">800</div>
+                    <div class="amount-option" data-amount="1000">1000</div>
+                    <div class="amount-option" data-amount="1200">1200</div>
+                    <div class="amount-option" data-amount="1500">1500</div>
+                    <div class="amount-option" data-amount="1700">1700</div>
+                    <div class="amount-option" data-amount="2500">2500</div>
+                    <div class="amount-option" data-amount="4000">4000</div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submitWithdraw">Withdraw Now</button>
+            <div class="success-message" id="successMessage">
+                Withdrawal Successfully Completed!
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        +50 स्कोर मिले!
+    </div>
+
+    <script>
+
+
+  function checkInternet() {
+    if (!navigator.onLine) {
+      document.body.innerHTML = `
+        <div style="text-align:center;padding:50px">
+          <h2 style="color:red;">No Internet Connection</h2>
+          <p>Please connect to the internet to continue using this app.</p>
+        </div>
+      `;
+    }
+  }
+
+  // App load होते ही चेक करो
+  window.addEventListener('load', checkInternet);
+  
+  // अगर बीच में इंटरनेट चला जाए तो भी चेक करो
+  window.addEventListener('offline', checkInternet);
+
+
+        // Game variables
+        let score = 0;
+        let amount = 0;
+        let selectedAmount = 0;
+        const scoreToAmount = 100; // 100 score = ₹1
+        let adAvailable = true;
+        
+        // DOM elements
+        const introScreen = document.getElementById('introScreen');
+        const appInterface = document.getElementById('appInterface');
+        const nextBtn = document.getElementById('nextBtn');
+        const scoreValue = document.getElementById('scoreValue');
+        const amountValue = document.getElementById('amountValue');
+        const coin = document.getElementById('coin');
+        const adBtn = document.getElementById('adBtn');
+        const adProgress = document.getElementById('adProgress');
+        const adProgressBar = document.getElementById('adProgressBar');
+        const withdrawBtn = document.getElementById('withdrawBtn');
+        const withdrawModal = document.getElementById('withdrawModal');
+        const closeModal = document.getElementById('closeModal');
+        const upiId = document.getElementById('upiId');
+        const amountOptions = document.getElementById('amountOptions');
+        const submitWithdraw = document.getElementById('submitWithdraw');
+        const successMessage = document.getElementById('successMessage');
+        const notification = document.getElementById('notification');
+        
+        // Initialize app
+        nextBtn.addEventListener('click', function() {
+            introScreen.style.display = 'none';
+            appInterface.style.display = 'flex';
+        });
+        
+        // Coin click event - gives 1 score per click
+        coin.addEventListener('click', function() {
+            score += 1;
+            amount = Math.floor(score / scoreToAmount);
+            updateDisplay();
+            
+            // Enable withdraw button if amount reaches ₹800
+            if (amount >= 800) {
+                withdrawBtn.disabled = false;
+            }
+        });
+        
+        // Ad button click
+        adBtn.addEventListener('click', function() {
+            if (adAvailable) {
+                startAd();
+            }
+        });
+        
+        function startAd() {
+            // Disable button during ad
+            adBtn.disabled = true;
+            adProgress.style.display = 'block';
+            
+            // Simulate ad watching with progress bar
+            let progress = 0;
+            const adDuration = 5000; // 5 seconds
+            const interval = 50; // update every 50ms
+            const increment = (interval / adDuration) * 100;
+            
+            const adInterval = setInterval(function() {
+                progress += increment;
+                adProgressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(adInterval);
+                    completeAd();
+                }
+            }, interval);
+        }
+        
+        function completeAd() {
+            // Reward user
+            score += 50;
+            updateDisplay();
+            
+            // Show notification
+            notification.style.display = 'block';
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 2000);
+            
+            // Reset ad UI
+            adProgress.style.display = 'none';
+            adProgressBar.style.width = '0%';
+            
+            // Disable ad button temporarily
+            adAvailable = false;
+            adBtn.textContent = "विज्ञापन उपलब्ध नहीं";
+            
+            // Re-enable after 30 seconds
+            setTimeout(function() {
+                adAvailable = true;
+                adBtn.disabled = false;
+                adBtn.textContent = "विज्ञापन देखें";
+            }, 30000);
+            
+            // Check if withdraw button should be enabled
+            if (amount >= 800) {
+                withdrawBtn.disabled = false;
+            }
+        }
+        
+        // Update display
+        function updateDisplay() {
+            scoreValue.textContent = score;
+            amountValue.textContent = amount;
+        }
+        
+        // Withdraw button click
+        withdrawBtn.addEventListener('click', function() {
+            withdrawModal.style.display = 'flex';
+        });
+        
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            withdrawModal.style.display = 'none';
+            successMessage.style.display = 'none';
+        });
+        
+        // Amount selection
+        amountOptions.addEventListener('click', function(e) {
+            if (e.target.classList.contains('amount-option')) {
+                // Remove selected class from all options
+                document.querySelectorAll('.amount-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                e.target.classList.add('selected');
+                selectedAmount = parseInt(e.target.getAttribute('data-amount'));
+            }
+        });
+        
+        // Submit withdrawal
+        submitWithdraw.addEventListener('click', function() {
+            if (!upiId.value) {
+                alert('कृपया अपना UPI ID दर्ज करें');
+                return;
+            }
+            
+            if (!selectedAmount) {
+                alert('कृपया राशि चुनें');
+                return;
+            }
+            
+            if (selectedAmount > amount) {
+                alert('आपके पास पर्याप्त राशि नहीं है');
+                return;
+            }
+            
+            // Process withdrawal
+            successMessage.style.display = 'block';
+            
+            // Reset after 2 seconds
+            setTimeout(function() {
+                withdrawModal.style.display = 'none';
+                successMessage.style.display = 'none';
+                
+                // Deduct the withdrawn amount
+                score -= selectedAmount * scoreToAmount;
+                amount = Math.floor(score / scoreToAmount);
+                updateDisplay();
+                
+                // Disable withdraw button if amount is less than ₹800
+                if (amount < 800) {
+                    withdrawBtn.disabled = true;
+                }
+                
+                // Reset selection
+                document.querySelectorAll('.amount-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                upiId.value = '';
+                selectedAmount = 0;
+            }, 2000);
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === withdrawModal) {
+                withdrawModal.style.display = 'none';
+                successMessage.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+<script type='text/javascript' src='//pl27357734.profitableratecpm.com/38/f9/81/38f98159736a7effa948b9575cc2ae22.js'></script>
+
+<script type='text/javascript' src='//pl27357734.profitableratecpm.com/38/f9/81/38f98159736a7effa948b9575cc2ae22.js'></script>
+
+<script type='text/javascript' src='//pl27357734.profitableratecpm.com/38/f9/81/38f98159736a7effa948b9575cc2ae22.js'></script>
+
+<script type='text/javascript' src='//pl27357734.profitableratecpm.com/38/f9/81/38f98159736a7effa948b9575cc2ae22.js'></script>
